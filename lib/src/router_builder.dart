@@ -1,3 +1,4 @@
+import 'package:dart_router_extended/dart_router_extended.dart';
 import 'package:dart_router_extended/src/abstract_route.dart';
 import 'package:dart_router_extended/src/route_method.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -43,21 +44,32 @@ class RouteBuilder {
   }
 
   RouteBuilder route(AbstractRoute route) {
+    return _route(route);
+  }
+
+  RouteBuilder _route(AbstractRoute route, {String prefix = ""}) {
     switch (route.method) {
       case RouteMethod.get:
-        return get(route.path, route.handler);
+        return get(prefix + route.path, route.handler);
       case RouteMethod.post:
-        return post(route.path, route.handler);
+        return post(prefix + route.path, route.handler);
       case RouteMethod.delete:
-        return delete(route.path, route.handler);
+        return delete(prefix + route.path, route.handler);
       case RouteMethod.put:
-        return put(route.path, route.handler);
+        return put(prefix + route.path, route.handler);
       case RouteMethod.options:
-        return options(route.path, route.handler);
+        return options(prefix + route.path, route.handler);
       case RouteMethod.head:
-        return head(route.path, route.handler);
+        return head(prefix + route.path, route.handler);
       case RouteMethod.patch:
-        return patch(route.path, route.handler);
+        return patch(prefix + route.path, route.handler);
     }
+  }
+
+  RouteBuilder controller(Controller controller) {
+    for (AbstractRoute route in controller.routes) {
+      _route(route, prefix: controller.pathPrefix);
+    }
+    return this;
   }
 }
