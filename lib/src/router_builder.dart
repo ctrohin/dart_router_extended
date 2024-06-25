@@ -1,6 +1,4 @@
 import 'package:dart_router_extended/dart_router_extended.dart';
-import 'package:dart_router_extended/src/abstract_route.dart';
-import 'package:dart_router_extended/src/route_method.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class RouteBuilder {
