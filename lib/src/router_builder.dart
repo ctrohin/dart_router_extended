@@ -75,4 +75,8 @@ class RouteBuilder {
     }
     return this;
   }
+
+  Router getRouter() {
+    return _router;
+  }
 }
