@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:dart_router_extended/dart_router_extended.dart';
+import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class RouteBuilder {
-  final Router _router;
+  late Router _router;
 
-  const RouteBuilder(this._router);
+  RouteBuilder(FutureOr<Response> Function(Request) notFoundHandler) {
+    _router = Router(notFoundHandler: notFoundHandler);
+  }
 
   RouteBuilder get(String route, Function handler) {
     _router.get(route, handler);
