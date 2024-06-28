@@ -8,3 +8,4 @@ export 'src/route_method.dart';
 export 'src/router_builder.dart';
 export 'src/controller.dart';
 export 'src/responses.dart';
+export 'src/requests.dart';
