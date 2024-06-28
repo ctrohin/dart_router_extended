@@ -9,3 +9,4 @@ export 'src/router_builder.dart';
 export 'src/controller.dart';
 export 'src/responses.dart';
 export 'src/requests.dart';
+export 'src/to_json.dart';
