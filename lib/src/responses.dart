@@ -108,3 +108,16 @@ class JsonResponse {
     );
   }
 }
+
+class ErrorJson implements ToJson {
+  final String? message;
+
+  ErrorJson(this.message);
+
+  ErrorJson.empty() : message = null;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"error": message ?? ""};
+  }
+}
