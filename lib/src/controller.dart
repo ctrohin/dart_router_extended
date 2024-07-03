@@ -1,6 +1,6 @@
 import 'package:dart_router_extended/src/abstract_route.dart';
 
-final class Controller {
+class Controller {
   final String pathPrefix;
   final List<AbstractRoute> routes;
 
