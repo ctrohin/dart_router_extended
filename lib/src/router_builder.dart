@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:dart_router_extended/dart_router_extended.dart';
+import 'package:dart_router_extended/src/guarded_controller.dart';
 
 class RouteBuilder {
   late Router _router;
 
+  /// Public methods
   RouteBuilder(FutureOr<Response> Function(Request) notFoundHandler) {
     _router = Router(notFoundHandler: notFoundHandler);
   }
@@ -44,37 +46,61 @@ class RouteBuilder {
     return this;
   }
 
-  RouteBuilder route(AbstractRoute route) {
-    return _route(route);
-  }
-
-  RouteBuilder _route(AbstractRoute route, {String prefix = ""}) {
-    switch (route.method) {
-      case RouteMethod.get:
-        return get(prefix + route.path, route.handler);
-      case RouteMethod.post:
-        return post(prefix + route.path, route.handler);
-      case RouteMethod.delete:
-        return delete(prefix + route.path, route.handler);
-      case RouteMethod.put:
-        return put(prefix + route.path, route.handler);
-      case RouteMethod.options:
-        return options(prefix + route.path, route.handler);
-      case RouteMethod.head:
-        return head(prefix + route.path, route.handler);
-      case RouteMethod.patch:
-        return patch(prefix + route.path, route.handler);
-    }
+  RouteBuilder route(AbstractRoute route, {RouteGuard? guard}) {
+    return _route(route, guard: guard);
   }
 
   RouteBuilder controller(Controller controller) {
+    RouteGuard? guard;
+    if (controller is GuardedController) {
+      guard = controller.guard;
+    }
     for (AbstractRoute route in controller.routes) {
-      _route(route, prefix: controller.pathPrefix);
+      _route(route, prefix: controller.pathPrefix, guard: guard);
     }
     return this;
   }
 
   Router getRouter() {
     return _router;
+  }
+
+  /// Private methods
+
+  RouteBuilder _route(AbstractRoute route,
+      {String prefix = "", RouteGuard? guard}) {
+    switch (route.method) {
+      case RouteMethod.get:
+        return get(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.post:
+        return post(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.delete:
+        return delete(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.put:
+        return put(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.options:
+        return options(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.head:
+        return head(prefix + route.path, _guard(route.handler, guard));
+      case RouteMethod.patch:
+        return patch(prefix + route.path, _guard(route.handler, guard));
+    }
+  }
+
+  Handler _guard(Handler handler, RouteGuard? guard) {
+    if (guard == null) {
+      return handler;
+    } else {
+      return (request) async {
+        var validationFn = guard.isSecure;
+
+        if (validationFn!(request)) {
+          final response = await handler(request);
+          return response;
+        } else {
+          return Response.forbidden("");
+        }
+      };
+    }
   }
 }
