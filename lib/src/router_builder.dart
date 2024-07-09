@@ -87,14 +87,13 @@ class RouteBuilder {
     }
   }
 
-  Handler _guard(Handler handler, RouteGuard? guard) {
+  Function _guard(Function handler, RouteGuard? guard) {
     if (guard == null) {
       return handler;
     } else {
       return (request) async {
         var validationFn = guard.isSecure;
-
-        if (validationFn!(request)) {
+        if (validationFn(request)) {
           final response = await handler(request);
           return response;
         } else {
