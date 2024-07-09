@@ -11,7 +11,6 @@ export 'src/responses.dart';
 export 'src/requests.dart';
 export 'src/to_json.dart';
 export 'src/route_guard.dart';
-export 'src/guarded_controller.dart';
 
 export 'package:shelf/shelf.dart';
 export 'package:shelf/shelf_io.dart';
