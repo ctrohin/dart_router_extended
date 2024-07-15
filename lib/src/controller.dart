@@ -6,9 +6,10 @@ class Controller {
 
   Controller({required this.pathPrefix, required this.routes});
 
-  String getPathForRoute(AbstractRoute route) {
+  List<String> getPathsForRoute(AbstractRoute route) {
     if (routes.contains(route)) {
-      return "$pathPrefix${route.path}";
+      return List.generate(
+          route.paths.length, (idx) => "$pathPrefix${route.paths[idx]}");
     }
     throw Exception("This route does not belong to this controller.");
   }

@@ -63,21 +63,33 @@ class RouteBuilder {
   /// Private methods
 
   RouteBuilder _route(AbstractRoute route, {String prefix = ""}) {
+    RouteBuilder Function(String route, Function handler) mth;
     switch (route.method) {
       case RouteMethod.get:
-        return get(prefix + route.path, route.handler);
+        mth = get;
+        break;
       case RouteMethod.post:
-        return post(prefix + route.path, route.handler);
+        mth = post;
+        break;
       case RouteMethod.delete:
-        return delete(prefix + route.path, route.handler);
+        mth = delete;
+        break;
       case RouteMethod.put:
-        return put(prefix + route.path, route.handler);
+        mth = put;
+        break;
       case RouteMethod.options:
-        return options(prefix + route.path, route.handler);
+        mth = options;
+        break;
       case RouteMethod.head:
-        return head(prefix + route.path, route.handler);
+        mth = head;
+        break;
       case RouteMethod.patch:
-        return patch(prefix + route.path, route.handler);
+        mth = patch;
     }
+    for (var path in route.paths) {
+      mth(prefix + path, route.handler);
+    }
+
+    return this;
   }
 }
