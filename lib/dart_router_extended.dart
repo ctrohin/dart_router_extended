@@ -4,7 +4,7 @@
 library;
 
 export 'src/abstract_route.dart';
-export 'src/route_method.dart';
+export 'src/method.dart';
 export 'src/router_builder.dart';
 export 'src/controller.dart';
 export 'src/responses.dart';

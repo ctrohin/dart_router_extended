@@ -1,4 +1,4 @@
-enum RouteMethod {
+enum Method {
   get,
   post,
   put,

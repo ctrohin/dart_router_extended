@@ -65,25 +65,25 @@ class RouteBuilder {
   RouteBuilder _route(AbstractRoute route, {String prefix = ""}) {
     RouteBuilder Function(String route, Function handler) mth;
     switch (route.method) {
-      case RouteMethod.get:
+      case Method.get:
         mth = get;
         break;
-      case RouteMethod.post:
+      case Method.post:
         mth = post;
         break;
-      case RouteMethod.delete:
+      case Method.delete:
         mth = delete;
         break;
-      case RouteMethod.put:
+      case Method.put:
         mth = put;
         break;
-      case RouteMethod.options:
+      case Method.options:
         mth = options;
         break;
-      case RouteMethod.head:
+      case Method.head:
         mth = head;
         break;
-      case RouteMethod.patch:
+      case Method.patch:
         mth = patch;
     }
     for (var path in route.paths) {
