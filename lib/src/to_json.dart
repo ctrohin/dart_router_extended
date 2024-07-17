@@ -1,5 +1,7 @@
+import 'package:dart_router_extended/dart_router_extended.dart';
+
 class ToJson {
-  Map<String, dynamic> toJson() {
+  JsonObject toJson() {
     return {};
   }
 }

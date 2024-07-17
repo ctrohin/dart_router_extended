@@ -1,11 +1,16 @@
 import 'dart:convert';
 
-import 'package:dart_router_extended/src/to_json.dart';
-import 'package:shelf/shelf.dart';
+import 'package:dart_router_extended/dart_router_extended.dart';
 
 class JsonResponse {
+  final int statusCode;
+  final String? status;
+  final JsonObject? responseObject;
+
+  JsonResponse({required this.statusCode, this.status, this.responseObject});
+
   static Response ok(
-    Map<String, dynamic> object, {
+    JsonObject object, {
     Map<String, /* String | List<String> */ Object>? headers,
     Encoding? encoding,
     Map<String, Object>? context,
@@ -19,7 +24,7 @@ class JsonResponse {
   }
 
   static Response notFound(
-    Map<String, dynamic> object, {
+    JsonObject object, {
     Map<String, /* String | List<String> */ Object>? headers,
     Encoding? encoding,
     Map<String, Object>? context,
@@ -29,7 +34,7 @@ class JsonResponse {
   }
 
   static Response badRequest(
-    Map<String, dynamic> object, {
+    JsonObject object, {
     Map<String, /* String | List<String> */ Object>? headers,
     Encoding? encoding,
     Map<String, Object>? context,
@@ -43,7 +48,7 @@ class JsonResponse {
   }
 
   static Response unauthorized(
-    Map<String, dynamic> object, {
+    JsonObject object, {
     Map<String, /* String | List<String> */ Object>? headers,
     Encoding? encoding,
     Map<String, Object>? context,
@@ -117,7 +122,7 @@ class ErrorJson implements ToJson {
   ErrorJson.empty() : message = null;
 
   @override
-  Map<String, dynamic> toJson() {
+  JsonObject toJson() {
     return {"error": message ?? ""};
   }
 }
