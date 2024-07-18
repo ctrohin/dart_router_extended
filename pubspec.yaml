@@ -1,5 +1,5 @@
 name: dart_router_extended
-description: A starting point for Dart libraries or applications.
+description: Dart Router Extended expands on shelf and shelf_router to provide a more friendly web server routing capabilities.
 version: 1.0.0
 repository: https://github.com/ctrohin/dart_router_extended.git
 
